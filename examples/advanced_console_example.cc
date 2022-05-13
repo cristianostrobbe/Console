@@ -25,18 +25,18 @@ int main()
     while(running)
     {
         // 1) Test << operator. Single string. 
-        Debug << "Method #1";
+        Debug << "Method #1\n";
         Debug << "Schei e paura mai avui\n";
 
         // Same but using singleton
         LOGGAMELO << "Schei e paura mai avui\n";
 
         // 2) Test multiple strings and types. Remeber carriage retrun.
-        Debug << "Method #2";
-        Debug << "Schei e paura mai avui" << 10 << "e mai li avro'" << 200.1234560 << "\n";
+        Debug << "Method #2\n";
+        Debug << "Schei e paura mai avui " << 10 << " e mai li avro' " << 200.1234560 << "\n";
 
         // Same but using singleton and give __PRETTY_FUNTION__ as sub-header argument
-        LOGHERE << "Schei e paura mai avui" << 10 << "e mai li avro'" << 200.1234560 << "\n";
+        LOGHERE << "Schei e paura mai avui " << 10 << " e mai li avro' " << 200.1234560 << "\n";
 
         // 3) With open brackets
         Debug("Method #3");

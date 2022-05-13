@@ -24,6 +24,7 @@
 #include <time.h>
 #include <vector>
 #include <algorithm>
+#include <sstream>
 #include <sys/time.h> // gettimeofday
 
 #include "TerminalCommads.h"

@@ -60,7 +60,7 @@ int main()
         // mean values and/or standard deviation for all the key and values
         // that you append. 
         // string mean_val = Log.GetMeanValues(); // Get mean values for each key
-        vector<string> mean_val = Log.GetMeanAndStdDev(); // Get mean value and variance for each key
+        vector<string> mean_val = Log.GetMeanAndStdDev(); // Get mean value and std. dev. for each key
         string header   = Log.GetStatHeader();
 
         // Print

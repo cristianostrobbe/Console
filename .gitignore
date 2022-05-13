@@ -54,3 +54,6 @@ dkms.conf
 
 bin/
 build/
+lib/
+**.log
+.DS_Store

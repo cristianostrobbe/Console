@@ -4,7 +4,5 @@
 
 void test()
 {
-
     LOGGAMELO << "From test\n";
-
 }

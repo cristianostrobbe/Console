@@ -27,19 +27,68 @@ This project contains multiple useful libraries:
 - [Profiler](profiler)
 
 
-## Console
-Easy way to print something on the terminal.
+## __Console__
+Easy way to print something on the terminal. Where terminal message is composed by four __fields__.
+  1. __Timestamp__ as HH:MM:SS.ms
+  2. __Header__ define type of message like __Log__, __Info__, __Warn__, etc etc.
+  3. __Sub-header__ (optional) which is user defined and can be colored.
+  4. __Message__ which is the content of the message.
 
-### Usage
+!["demo"](images/console.png)
+
+### Basic usage
 ~~~c++
+// Default configuration
+Debug::Console Debug;
+
+// Overwrite default configuration
+Debug::Console Debug(YELLOW, BOLD, DEFAULT, NORMAL);
+// 1 - Header color
+// 2 - Header type (bold, underlined, blink...)
+// 3 - Text color
+// 4 - Text type (bold, underlined, blink...)
+
+// Save all message in a log file
+Debug.SaveAllMessages(); // .log near executable file
+// or
+Debug.SaveAllMessages("/path/to/log/file.log");
+
+// Print Info message
+Debug.Info("message");   // HH:MM:SS.ms [Info] message
+Debug.Error("message");  // HH:MM:SS.ms [Err ] message
+Debug.Warn("message");   // HH:MM:SS.ms [Warn] message 
+// Non persistent message 
+Debug.Wait("message");   // HH:MM:SS.ms [Info] message 
+
+// Set header and message
+Debug.Info("Header", "message"); // HH:MM:SS.ms [Head] message 
 
 ~~~
-### Static usage
-~~~c++
 
+### Advanced usage
+~~~c++
+// Static console (singleton)
+// Configure
+Debug::StaticConsole::Get().SaveAllMessages(); // Defualt near executable that initiate first.
+Debug::StaticConsole::Get().SetDefault(YELLOW, BOLD, DEFAULT, NORMAL);
+
+// Using operators
+Debug << "message\n";  // HH:MM:SS.ms [Log ] message
+// Brackets - define message
+Debug("message");      // HH:MM:SS.ms [Log ] message
+// Square brackets - define sub-header
+Debug["sub-header"] << "message\n"; // HH:MM:SS.ms [Log ] [sub-header] message
+
+// Using macro
+// Simple log message
+LOGGAMELO << "message\n"; // HH:MM:SS.ms [Log ] message
+// Log message where sub-header is the function name (__PRETTY_FUNCTION__)
+LOGHERE << "message\n";  // HH:MM:SS.ms [Log ] message
+// Simple log message but more "thread-safe"
+SAFELOG << "message" << FINI; // HH:MM:SS.ms [Log ] message
 ~~~
 
-## Browse
+## __Browse__
 Allows browing from terminal files in system.  
 
 ### Usage
@@ -81,7 +130,7 @@ SetMaxSelections(number);
 ~~~
 
 
-## Profiler
+## __Profiler__
 Tool to time functions and output data to a json formatted file.
 The result can be opened in Google Chorme tool.
 
@@ -124,3 +173,35 @@ Instrumentor::Get().EndSession();
 Open Google Chrome, in the topbar type ***chrome://tracing/***.
 
 From there, load prof_result.json.
+
+## __LogTimes__
+Simple way to measure code execution time, make some stats and save results in a __.csv__ file. This library __is not__ suitable for multi-threaded applications.
+
+### Usage
+~~~c++
+// Deafult configuration. Create DD_MM_YYYY__hh_mm_ss.logtimes file.
+Debug::LogTimes Log;
+
+// Cycle usage
+while(!stop) {
+  // Start measuing using a "key1"
+  Log.StartByKey("key1");
+  // Stuff you want to measure
+  Log.StopByKey("key1");
+
+  // Start measuing using a "key2"
+  Log.StartByKey("key2");
+  // Stuff you want to measure
+  Log.StopByKey("key2");
+  
+  // Once cycle is finished
+  Log.SumDtByKey(); 
+  // Compute times and save them to output file
+}
+
+// Get statistics for all keys
+// Get mean value and standard deviation for each key
+vector<string> mean_val = Log.GetMeanAndStdDev(); 
+// Get csv header
+string header   = Log.GetStatHeader();
+~~~

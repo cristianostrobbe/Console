@@ -11,10 +11,10 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 add_library(${PROJECT_NAME} SHARED
-  src/Console.cc
-  src/LogTimes.cc
-  src/Browse.cc
-  src/Profiler.cc
+    src/Console.cc
+    src/LogTimes.cc
+    src/Browse.cc
+    src/Profiler.cc
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
@@ -28,18 +28,21 @@ target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/inc)
 
 if(BUILD_EXAMPLES)
-    add_executable(test_console test/test_console.cc)
-    target_link_libraries(test_console ${PROJECT_NAME})
+    add_executable(simple_console examples/simple_console_example.cc)
+    target_link_libraries(simple_console ${PROJECT_NAME})
 
-    add_executable(test_console_operator test/test_console_operator.cc)
-    target_link_libraries(test_console_operator ${PROJECT_NAME})
+    add_executable(advanced_console examples/advanced_console_example.cc)
+    target_link_libraries(advanced_console ${PROJECT_NAME})
 
-    add_executable(test_logtimes test/test_logtimes.cc)
-    target_link_libraries(test_logtimes ${PROJECT_NAME})
+    add_executable(logtimes_example examples/logtimes_example.cc)
+    target_link_libraries(logtimes_example ${PROJECT_NAME})
 
-    add_executable(test_browse test/test_browse.cc)
-    target_link_libraries(test_browse ${PROJECT_NAME})
+    add_executable(browse_example examples/browse_example.cc)
+    target_link_libraries(browse_example ${PROJECT_NAME})
 
-    add_executable(test_profiler test/test_profiler.cc)
-    target_link_libraries(test_profiler ${PROJECT_NAME})
+    add_executable(profiler_example examples/profiler_example.cc)
+    target_link_libraries(profiler_example ${PROJECT_NAME})
+endif()
+
+if(BUILD_TEST)
 endif()
